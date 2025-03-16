@@ -2,7 +2,6 @@ package ma.khairy.chatBot.service;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
-import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -10,9 +9,9 @@ import reactor.core.publisher.Flux;
 public class ChatBotService {
     private final ChatClient chatClient;
 
-    public ChatBotService(ChatClient.Builder chatClient) {
+    public ChatBotService(ChatClient.Builder chatClient, PostgresChatMemory postgresChatMemory) {
         this.chatClient = chatClient
-                .defaultAdvisors(new MessageChatMemoryAdvisor(new InMemoryChatMemory()))
+                .defaultAdvisors(new MessageChatMemoryAdvisor(postgresChatMemory))
                 .build();
     }
 
