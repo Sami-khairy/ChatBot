@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: chatBot
+  ai:
+    openai:
+      chat:
+        options:
+          model: gpt-4o
+      api-key: ${OPENAI_API_KEY}
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chatbotdb
+    username: myuser
+    password: secret
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
