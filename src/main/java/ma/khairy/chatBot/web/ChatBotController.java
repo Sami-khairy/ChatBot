@@ -1,11 +1,13 @@
 package ma.khairy.chatBot.web;
 
+import jakarta.validation.Valid;
 import ma.khairy.chatBot.service.ChatBotService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import ma.khairy.chatBot.service.ChatRequest;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
 @RestController
+@RequestMapping("/api")
 public class ChatBotController {
     private final ChatBotService chatBotService;
 
@@ -13,9 +15,9 @@ public class ChatBotController {
         this.chatBotService = chatBotService;
     }
 
-    @GetMapping("/chatV1")
-    public String chatV1(String message, String conversationId){
-        return chatBotService.simpleChat(message, conversationId);
+    @PostMapping("/chatV1")
+    public String chatV1(@Valid @RequestBody ChatRequest request) {
+        return chatBotService.simpleChat(request.message(), request.conversationId());
     }
 
     @GetMapping("/chatV2")
