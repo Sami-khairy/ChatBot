@@ -14,8 +14,8 @@ public class ChatBotController {
     }
 
     @GetMapping("/chatV1")
-    public String chatV1(String message){
-        return chatBotService.simpleChat(message);
+    public String chatV1(String message, String conversationId){
+        return chatBotService.simpleChat(message, conversationId);
     }
 
     @GetMapping("/chatV2")

@@ -5,6 +5,8 @@ import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
+import java.util.Map;
+
 @Service
 public class ChatBotService {
     private final ChatClient chatClient;
@@ -15,8 +17,9 @@ public class ChatBotService {
                 .build();
     }
 
-    public String simpleChat(String message){
+    public String simpleChat(String message, String conversationId){
         return chatClient.prompt()
+                .advisors(advisor -> advisor.param("chat_memory_conversation_id", conversationId))
                 .user(message)
                 .call()
                 .content();
