@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface ChatMemoryRepository extends JpaRepository<ChatMemoryEntity, Long> {
-    List<ChatMemoryEntity> findByConversationIdOrderByTimestampDesc(String conversationId);
+    List<ChatMemoryEntity> findByConversationIdOrderByTimestampAsc(String conversationId);
+
+    List<ChatMemoryEntity> findByConversationId(String conversationId);
 }

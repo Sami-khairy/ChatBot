@@ -32,16 +32,14 @@ public class PostgresChatMemory implements ChatMemory {
 
     @Override
     public List<Message> get(String conversationId, int lastN) {
-        List<ChatMemoryEntity> entities = repository.findByConversationIdOrderByTimestampDesc(conversationId);
+        List<ChatMemoryEntity> entities = repository.findByConversationIdOrderByTimestampAsc(conversationId);
 
-        // Si lastN est positif, limiter le nombre de messages
         if (lastN > 0 && entities.size() > lastN) {
-            entities = entities.subList(0, lastN);
+            int startIndex = entities.size() - lastN;
+            entities = entities.subList(startIndex, entities.size());
         }
 
-        // Trier par timestamp croissant pour obtenir l'ordre chronologique
-        entities.sort(Comparator.comparing(ChatMemoryEntity::getTimestamp));
-
+        // Convertir en objets Message
         return entities.stream()
                 .map(entity -> {
                     if ("user".equals(entity.getSender())) {
@@ -55,6 +53,6 @@ public class PostgresChatMemory implements ChatMemory {
 
     @Override
     public void clear(String conversationId) {
-        repository.deleteAll(repository.findByConversationIdOrderByTimestampDesc(conversationId));
+        repository.deleteAll(repository.findByConversationId(conversationId));
     }
 }
